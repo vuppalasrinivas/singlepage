@@ -1,0 +1,70 @@
+
+
+
+<%unless user_signed_in? %>
+<div class="container">
+  <h1>Sample text</h1>
+  <p >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+</div>
+<%else%>
+<div class="container" style="color:<%=current_user.color unless current_user.color.nil? %>; font-family: '<%=current_user.font unless current_user.font.nil? %>'; ">
+  <h1><%=current_user.title unless current_user.title.nil? %></h1>
+  <p style="font-size: <%=current_user.fsize unless current_user.fsize.nil? %>px;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+</div>
+
+
+<div class="container">
+  <h4>Click below button to edit colors and fonts</h4>
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">click me</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit your settings</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_for @user, :url => url_for(:controller => 'home', :action => 'update') do |f|%>
+		  <div class="field">
+    	  <%= f.label :title %><br />
+    	  <%= f.text_field :title, :class=>"form-control" %>
+  		  </div>
+		  <div class="field">
+		    <%= f.label :color %><br />
+		    <%= f.text_field :color, :class=>"form-control"  %>
+		  </div>
+		  <div class="field">
+		    <%= f.label :bgcolor %><br />
+		    <%= f.text_field :bgcolor, :class=>"form-control"   %>
+		  </div>
+		  <div class="field">
+		    <%= f.label :font %><br />
+		    <%#=f.select(:font, @formlist.map { |value| [ value, value ] }, {:class=>"form-control"})%>
+		    <%= f.select :font, @formlist.map { |value| [ value, value ] }, {}, {required: 'true', autofocus: 'true', class: 'form-control'} %>
+		  </div>
+		   <div class="field">
+		    <%= f.label :fsize %><br />
+		    <%= f.text_field :fsize, :class=>"form-control"  %>
+		  </div>
+		  <div class="actions">
+		    
+		  </div>
+		  
+        </div>
+        <div class="modal-footer">
+        	<%= f.submit "update settings", :class=>"btn btn-primary" %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%end%>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+<%end%>
